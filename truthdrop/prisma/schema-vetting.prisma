@@ -1,0 +1,49 @@
+// Vetting Application Schema
+// Add this to your existing schema.prisma file
+
+model VettingApplication {
+  id                String   @id @default(cuid())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Applicant Information
+  fullName          String
+  email             String
+  organization      String?
+  role              String?
+  
+  // Application Details
+  reasonForAccess   String   @db.Text
+  intendedUse       String   @db.Text
+  agreedToTerms     Boolean  @default(true)
+  
+  // Review Status
+  status            String   @default("pending") // pending, approved, rejected
+  reviewNotes       String?  @db.Text
+  reviewedAt        DateTime?
+  reviewedBy        String?
+  
+  // Generated Credentials (for approved applications)
+  generatedPassword String?
+  
+  @@index([status])
+  @@index([email])
+  @@index([createdAt])
+}
+
+// User model (if not already exists)
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("user") // user, researcher, admin
+  organization  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@index([email])
+  @@index([role])
+}

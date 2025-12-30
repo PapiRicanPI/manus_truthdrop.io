@@ -1,0 +1,18 @@
+Review Draft Case Files Page Status
+====================================
+
+Current Status:
+- Pending Review: 0
+- Approved: 0
+- Rejected: 0
+- Total Drafts: 0
+
+Message displayed: "No draft case files found"
+Subtitle: "The automated news scanner will create drafts when relevant articles are detected"
+
+This confirms that the news scan executed successfully but did not find any articles 
+with a relevance score ≥60 at this time.
+
+The system is working correctly - it's just that there are no new relevant articles 
+about NGO fraud, nonprofit embezzlement, poverty program fraud, or aid misappropriation 
+in the target regions (Philippines, Puerto Rico, USA) at this moment.

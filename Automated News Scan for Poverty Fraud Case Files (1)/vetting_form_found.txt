@@ -1,0 +1,33 @@
+VETTING APPLICATION FORM FOUND!
+================================
+
+URL: https://truthdrop.io/apply
+
+This is the public-facing vetting application form where users can apply for access to The Vault Investigates database.
+
+Form Fields:
+1. Full Name * (required)
+2. Email Address * (required) - Professional/organizational emails prioritized
+3. Organization / Affiliation (optional)
+4. Your Role / Position (optional)
+5. Reason for Requesting Access * (required) - Minimum 100 characters
+6. How Will You Use This Data? * (required) - Minimum 100 characters
+7. Terms and Conditions checkbox * (required)
+
+Vetting Guidelines Displayed:
+- ✓ Legitimate Purpose
+- ✓ Professional Affiliation
+- ✓ Responsible Use Commitment
+- ✓ Verifiable Identity
+
+Warning: "Applications may be rejected if they lack sufficient detail, demonstrate no clear purpose, or raise concerns about potential misuse."
+
+Terms Applicants Must Agree To:
+- Use data responsibly and ethically
+- Properly cite The Vault Investigates as a source
+- Not misrepresent or manipulate findings
+- Not redistribute raw data without permission
+- Comply with all applicable laws and regulations
+- Accept that access may be revoked for violations
+
+This form submits applications to the admin vetting page at /admin/vetting for review.

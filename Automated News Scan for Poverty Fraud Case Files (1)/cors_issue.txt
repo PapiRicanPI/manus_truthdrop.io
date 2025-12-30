@@ -1,0 +1,15 @@
+CORS Issue Encountered
+======================
+
+The fetch request from the local server (https://8080-iwuh0o57gxopsdehq3brr-2cf659e1.manus-asia.computer) 
+to truthdrop.io is being blocked due to CORS (Cross-Origin Resource Sharing) restrictions.
+
+Error: Failed to fetch
+
+This is because:
+1. The browser is preventing cross-origin requests
+2. The truthdrop.io server doesn't allow requests from our local server origin
+
+Alternative Approach:
+We need to navigate directly to truthdrop.io and execute the JavaScript there, 
+where the same-origin policy will allow the request.

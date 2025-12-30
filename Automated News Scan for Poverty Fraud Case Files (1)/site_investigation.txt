@@ -1,0 +1,26 @@
+TruthDrop.io Site Investigation
+================================
+Date: December 22, 2025
+
+Current Issues Discovered:
+--------------------------
+
+1. SERVER ERRORS (500 Internal Server Error)
+   - Multiple 500 errors are showing in the console
+   - The admin dashboard is showing 0 cases, 0 users, 0 admins (previously showed 21 cases, 3 users)
+   - The site appears to be experiencing backend issues
+
+2. API ENDPOINT ISSUES
+   - The /api/trpc/admin.triggerNewsScan endpoint is returning HTML instead of JSON
+   - This suggests the endpoint may not be properly configured or the route doesn't exist
+
+3. AUTHENTICATION
+   - User is logged in as: Papi Rican Blue (tainorican2n@gmail.com)
+   - Authentication appears to be working
+
+Next Steps:
+-----------
+1. Check if the tRPC router has the admin.triggerNewsScan procedure defined
+2. Verify the backend code to see if this feature actually exists
+3. Check the server logs for more details on the 500 errors
+4. May need to implement the news scan feature if it doesn't exist yet

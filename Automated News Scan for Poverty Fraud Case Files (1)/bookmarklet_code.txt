@@ -1,0 +1,34 @@
+Bookmarklet Code to Trigger News Scan
+======================================
+
+Copy and paste this JavaScript code into the browser console while on truthdrop.io:
+
+(async function() {
+  try {
+    console.log('Triggering news scan...');
+    const response = await fetch('/api/trpc/admin.triggerNewsScan', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({})
+    });
+    
+    const data = await response.json();
+    console.log('Response:', data);
+    
+    if (response.ok) {
+      alert('✓ News scan triggered successfully!\n\nCheck /admin/review-drafts for results.\n\nResponse: ' + JSON.stringify(data, null, 2));
+    } else {
+      alert('✗ Error triggering news scan\n\nStatus: ' + response.status + '\n\nResponse: ' + JSON.stringify(data, null, 2));
+    }
+    
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+    alert('✗ Failed to trigger news scan\n\nError: ' + error.message);
+    throw error;
+  }
+})();
