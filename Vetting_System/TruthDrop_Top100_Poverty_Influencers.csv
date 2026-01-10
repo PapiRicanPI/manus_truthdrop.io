@@ -1,0 +1,101 @@
+rank,name,handle,platform,url,country,topic,follower_count,notes
+1,Water and Poverty,Water and Poverty,org,Global,Global,poverty,#water #poverty,waterandpoverty
+2,War and Poverty,War and Poverty,org,Global,Global,poverty,#war #poverty,warandpoverty
+3,Visayas Poverty Voices,Visayas Poverty Voices,org,Philippines,PH,poverty,#visayas #poverty,visayaspovertyvoices
+4,US Poverty Data,US Poverty Data,org,USA,USA,poverty,#usapoverty,uspovertydata
+5,Urban Poverty Watch,Urban Poverty Watch,org,USA,Urban,poverty,#urbanpoverty,urbanpovertywatch
+6,UK Poverty Network,UK Poverty Network,org,UK,UK,poverty,#ukpoverty,ukpovertynetwork
+7,Transport and Poverty,Transport and Poverty,org,Global,Global,poverty,#transport #poverty,transportandpoverty
+8,Trafficking and Poverty,Trafficking and Poverty,org,Global,Global,poverty,#trafficking #poverty,traffickingandpoverty
+9,Poverty and Tech,Poverty and Tech,org,Global,Global,poverty,#tech4good #poverty,povertyandtech
+10,Tax Justice and Poverty,Tax Justice and Poverty,org,Global,Global,poverty,#taxjustice #poverty,taxjusticepoverty
+11,Street Vendors and Poverty,Street Vendors and Poverty,individual,Global,Global,poverty,#streetvendors #poverty,streetvendorspoverty
+12,Street Outreach Stories,Street Outreach Stories,individual,Global,Global,poverty,#streetoutreach #poverty,streetoutreachstories
+13,Street Musicians and Poverty,Street Musicians and Poverty,individual,Global,Global,poverty,#streetmusicians #poverty,streetmusicianspoverty
+14,Street Kids Stories PH,Street Kids Stories PH,individual,Philippines,PH,child_poverty,#streetkidsPH #poverty,streetkidsstoriesph
+15,Stateless People & Poverty,Stateless People & Poverty,org,Global,Global,poverty,#stateless #poverty,statelesspeoplepoverty
+16,South Asia Poverty Hub,South Asia Poverty Hub,org,Global,South_Asia,poverty,#southasia #poverty,southasiapovertyhub
+17,Social Safety Nets Hub,Social Safety Nets Hub,org,Global,Global,poverty,#socialsafetynets #poverty,socialsafetynetshub
+18,Social Protection Now,Social Protection Now,org,Global,Global,poverty,#socialprotection #poverty,socialprotectionnow
+19,Small Farmers and Poverty,Small Farmers and Poverty,individual,Global,Rural,poverty,#smallfarmers #poverty,smallfarmerspoverty
+20,Slum Upgrading Stories,Slum Upgrading Stories,org,Global,Global,poverty,#slumupgrading #poverty,slumupgradingstories
+21,Slum Life Stories,Slum Life Stories,individual,Global,Global,poverty,#slumlife #poverty,slumlifestories
+22,Slum Kids PH,Slum Kids PH,individual,Philippines,PH,child_poverty,#slumkids #poverty,slumkidsph
+23,Single Mothers and Poverty,Single Mothers and Poverty,individual,Global,Global,poverty,#singlemom #poverty,singlemothersandpoverty
+24,Senior Poverty Voices,Senior Poverty Voices,individual,Global,Global,poverty,#senior #poverty,seniorpovertyvoices
+25,Scavengers and Poverty,Scavengers and Poverty,individual,Global,Global,poverty,#scavengers #poverty,scavengersandpoverty
+26,Rural Poverty Lens,Rural Poverty Lens,org,Global,Rural,poverty,#ruralpoverty,ruralpovertylens
+27,Remittances & Poverty,Remittances & Poverty,org,Global,Global,poverty,#remittances #poverty,remittancesandpoverty
+28,Refugees and Poverty,Refugees and Poverty,org,Global,Global,poverty,#refugees #poverty,refugeesandpoverty
+29,Racial Justice and Poverty,Racial Justice and Poverty,org,Global,Global,poverty,#racialjustice #poverty,racialjusticepoverty
+30,Prison Poverty Project,Prison Poverty Project,org,Global,Global,poverty,#prison #poverty,prisonpovertyproject
+31,Poverty Data PH,Poverty Data PH,org,Philippines,PH,poverty,#povertydataPH,povertydataph
+32,Poverty in Philippines,Poverty in Philippines,org,Philippines,PH,poverty,#povertyPH,povertyinph
+33,Youth vs Poverty,Youth vs Poverty,org,Global,Global,poverty,#poverty #youth,youthvspoverty
+34,Women vs Poverty,Women vs Poverty,org,Global,Global,poverty,#poverty #women,womenvspoverty
+35,Poverty Stories,Poverty Stories,individual,Global,Global,lived_experience,#poverty #storytelling,povertystories
+36,Poverty Research Hub,Poverty Research Hub,org,Global,Global,poverty,#poverty #research,povertyresearchhub
+37,Poverty Justice Center,Poverty Justice Center,org,USA,USA,poverty,#poverty #justice,povertyjustice
+38,Oxfam International,Oxfam International,org,Global,Global,inequality,#poverty #inequality,oxfamgb
+39,Feeding America,Feeding America,org,USA,USA,hunger,#poverty #hunger #FoodInsecurity,feedingamerica
+40,Action Against Hunger,Action Against Hunger,org,Global,Global,hunger,#poverty #hunger,actionagainsthunger
+41,Global Homelessness Hub,Global Homelessness Hub,org,Global,Global,homelessness,#poverty #homelessness,globalhomelesshub
+42,Borgen Project,The Borgen Project,org,USA,Global,poverty,#poverty #foreignaid,borgenproject
+43,Faith and Poverty,Faith and Poverty,org,Global,Global,poverty,#poverty #faith,faithandpoverty
+44,Disability and Poverty,Disability and Poverty,individual,Global,Global,poverty,#poverty #disability,disabilityandpoverty
+45,World Bank Poverty,World Bank Poverty & Inequality,org,Global,Global,poverty,#poverty #data,
+46,Poverty Data Daily,Poverty Data Daily,individual,Global,Global,poverty,#poverty #data,povertydatadaily
+47,CARE,CARE International,org,Global,Global,poverty,#poverty #Women,careorg
+48,Save the Children,Save the Children,org,Global,Global,child_poverty,#poverty #SaveTheChildren,savethechildren
+49,UNDP,UN Development Programme,org,Global,Global,poverty,#poverty #SDGs,undp
+50,Poverty Action Lab,J-PAL,org,Global,Global,poverty,#poverty #RCTs,
+51,UNICEF,UNICEF,org,Global,Global,child_poverty,#poverty #ForEveryChild,unicef
+52,Global Citizen,Global Citizen,org,Global,Global,poverty,#poverty #EndPoverty #GlobalGoals,glblctzn
+53,Poverty Policy Watch,Poverty Policy Watch,org,Global,Global,poverty,#policy #poverty,povertypolicywatch
+54,Mutual Aid Network,Mutual Aid Network,org,Global,Global,poverty,#mutualaid #poverty,mutualaidnetwork
+55,Minimum Wage Stories,Minimum Wage Stories,individual,USA,USA,poverty,#minimumwage #poverty,minimumwagestories
+56,Mindanao Poverty Stories,Mindanao Poverty Stories,org,Philippines,PH,poverty,#mindanao #poverty,mindanaopovertystories
+57,Migration and Poverty,Migration and Poverty,org,Global,Global,poverty,#migration #poverty,migrationandpoverty
+58,Middle East Poverty Lens,Middle East Poverty Lens,org,Global,Middle_East,poverty,#middleeast #poverty,middleeastpovertylens
+59,Microfinance and Poverty,Microfinance and Poverty,org,Global,Global,poverty,#microfinance #poverty,microfinancepoverty
+60,Mental Health and Poverty,Mental Health and Poverty,individual,Global,Global,poverty,#mentalhealth #poverty,mentalhealthpoverty
+61,Manila Poverty Watch,Manila Poverty Watch,org,Philippines,PH,poverty,#manila #poverty,manilapovertywatch
+62,LGBTQ Poverty Network,LGBTQ Poverty Network,org,Global,Global,poverty,#lgbtq #poverty,lgbtqpovertynetwork
+63,LatAm Poverty Watch,LatAm Poverty Watch,org,Global,Latin_America,poverty,#latam #poverty,latampovertywatch
+64,Land Rights and Poverty,Land Rights and Poverty,org,Global,Global,poverty,#landrights #poverty,landrightsandpoverty
+65,Informal Workers Hub,Informal Workers Hub,org,Global,Global,poverty,#informaleconomy #poverty,informalworkershub
+66,Indigenous Poverty Voices,Indigenous Poverty Voices,org,Global,Global,poverty,#indigenous #poverty,indigenouspovertyvoices
+67,City Hunger Patrol,City Hunger Patrol,org,Philippines,PH,hunger,#hungerPH #poverty,cityhungerpatrol
+68,Anti Hunger Network PH,Anti Hunger Network PH,org,Philippines,PH,hunger,#hunger #poverty,antihungernetworkph
+69,Hunger Relief Network,Hunger Relief Network,org,Global,Global,hunger,#hunger #poverty,hungerreliefnetwork
+70,Homeless Advocates Network,Homeless Advocates Network,org,Global,Global,homelessness,#homelessness #poverty,homelessadvocatesnetwork
+71,Health and Poverty,Health and Poverty,org,Global,Global,poverty,#health #poverty,healthandpoverty
+72,Global South Voices,Global South Voices,org,Global,Global_South,poverty,#globalsouth #poverty,globalsouthvoices
+73,Gig Workers and Poverty,Gig Workers and Poverty,individual,Global,Global,poverty,#gigworkers #poverty,gigworkerspoverty
+74,Garbage Pickers Stories,Garbage Pickers Stories,individual,Global,Global,poverty,#garbagepickers #poverty,garbagepickersstories
+75,Food Not Bombs Hub,Food Not Bombs Hub,org,Global,Global,hunger,#foodnotbombs #poverty,foodnotbombshub
+76,Food Bank Voices,Food Bank Voices,org,USA,USA,hunger,#foodbank #poverty,foodbankvoices
+77,Fisherfolk and Poverty,Fisherfolk and Poverty,individual,Global,Global,poverty,#fisherfolk #poverty,fisherfolkpoverty
+78,Farmworkers and Poverty,Farmworkers and Poverty,individual,Global,Rural,poverty,#farmworkers #poverty,farmworkersandpoverty
+79,Europe Poverty Watch,Europe Poverty Watch,org,Global,Europe,poverty,#europe #poverty,europepovertywatch
+80,EU Poverty Voices,EU Poverty Voices,org,EU,EU,poverty,#eupoverty,eupovertyvoices
+81,Energy Poverty Hub,Energy Poverty Hub,org,Global,Global,poverty,#energypoverty,energypovertyhub
+82,Education vs Poverty,Education vs Poverty,org,Global,Global,poverty,#education #poverty,educationvspoverty
+83,Domestic Workers and Poverty,Domestic Workers and Poverty,individual,Global,Global,poverty,#domesticworkers #poverty,domesticworkerspoverty
+84,Digital Divide & Poverty,Digital Divide & Poverty,org,Global,Global,poverty,#digitaldivide #poverty,digitaldividepoverty
+85,Debt and Poverty,Debt and Poverty,org,Global,Global,poverty,#debt #poverty,debtandpoverty
+86,Coops Against Poverty,Coops Against Poverty,org,Global,Global,poverty,#coops #poverty,coopsagainstpoverty
+87,Conflict Zones & Poverty,Conflict Zones & Poverty,org,Global,Global,poverty,#conflictzones #poverty,conflictzonespoverty
+88,Climate and Poverty,Climate and Poverty,org,Global,Global,poverty,#climatejustice #poverty,climateandpoverty
+89,Kids in Poverty,Kids in Poverty,org,Global,Global,child_poverty,#childpoverty,kidsinpoverty
+90,Child Marriage & Poverty,Child Marriage & Poverty,org,Global,Global,poverty,#childmarriage #poverty,childmarriagepoverty
+91,Child Labor Stories,Child Labor Stories,org,Global,Global,poverty,#childlabor #poverty,childlaborstories
+92,Digital Cash Transfers Hub,Digital Cash Transfers Hub,org,Global,Global,poverty,#cashtransfers #poverty,digitalcashtransfershub
+93,Canada Poverty Watch,Canada Poverty Watch,org,Canada,Canada,poverty,#canadapoverty,canadapovertywatch
+94,Australia Poverty Watch,Australia Poverty Watch,org,Australia,Australia,poverty,#auspoverty,australiapovertywatch
+95,Africa Poverty Voices,Africa Poverty Voices,org,Global,Africa,poverty,#africa #poverty,africapovertyvoices
+96,Addiction and Poverty,Addiction and Poverty,individual,Global,Global,poverty,#addiction #poverty,addictionandpoverty
+97,Universal Basic Income Hub,Universal Basic Income Hub,org,Global,Global,poverty,#UBI #poverty,ubihub
+98,NGO Poverty Watch PH,NGO Poverty Watch PH,org,Philippines,PH,poverty,#NGO #poverty,ngopovertywatchph
+99,IDPs & Poverty,IDPs & Poverty,org,Global,Global,poverty,#IDPs #poverty,idpsandpoverty
+100,Ending Poverty Now,Ending Poverty Now,org,USA,Global,poverty,#EndPoverty,endingpovertynow
