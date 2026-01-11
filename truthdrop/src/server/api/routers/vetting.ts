@@ -92,7 +92,7 @@ export const vettingRouter = createTRPCRouter({
           email: application.email,
           name: application.fullName,
           password: await hashPassword(password),
-          role: "researcher",
+          role: "admin"
           organization: application.organization,
         },
       });
