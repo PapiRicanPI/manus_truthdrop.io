@@ -17,7 +17,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "src/pages/**/*.ts",
+    "src/pages/**/*.tsx",
+    "src/lib/**/*.ts",
+    ".next/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules",
     "Automated News Scan for Poverty Fraud Case Files (1)",
