@@ -1,20 +1,30 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "../../../lib/session";
 
-const SEARCH_KEYWORDS = [
-  "poverty fraud",
-  "charity fraud",
-  "welfare fraud",
-  "nonprofit fraud",
-  "aid fraud",
-  "food stamp fraud",
-  "SNAP fraud",
-  "embezzlement charity",
-  "social services fraud",
-  "disaster relief fraud",
-  "pandemic relief fraud",
-  "housing assistance fraud",
+const DEFAULT_KEYWORDS = [
+  "poverty pimp",
+  "nonprofit fraud Philippines",
+  "aid fraud Puerto Rico",
+  "welfare fraud investigation",
+  "charity embezzlement",
+  "food bank fraud",
+  "Social Watch Philippines",
+  "Department of Social Welfare and Development Philippines",
+  "Philippine Misereor Partnership Inc",
+  "Ayuda para sa Kapos at Kita Program",
+  "TUPAD",
 ];
+
+function getKeywords(): string[] {
+  const envKeywords = process.env.NEWS_SCAN_KEYWORDS;
+  if (envKeywords && envKeywords.trim().length > 0) {
+    return envKeywords
+      .split(",")
+      .map((k) => k.trim())
+      .filter((k) => k.length > 0);
+  }
+  return DEFAULT_KEYWORDS;
+}
 
 interface NewsArticle {
   title: string;
@@ -22,6 +32,7 @@ interface NewsArticle {
   pubDate: string;
   source: string;
   snippet: string;
+  keyword: string;
 }
 
 async function fetchGoogleNewsRSS(keyword: string): Promise<NewsArticle[]> {
@@ -44,19 +55,34 @@ async function fetchGoogleNewsRSS(keyword: string): Promise<NewsArticle[]> {
   let match;
   while ((match = itemRegex.exec(xml)) !== null) {
     const item = match[1];
-    const title = (/<title><!\[CDATA\[(.*?)\]\]><\/title>/.exec(item) || /<title>(.*?)<\/title>/.exec(item))?.[1] || "";
+    const title =
+      (/<title><!\[CDATA\[(.*?)\]\]><\/title>/.exec(item) ||
+        /<title>(.*?)<\/title>/.exec(item))?.[1] || "";
     const link = (/<link>(.*?)<\/link>/.exec(item))?.[1] || "";
     const pubDate = (/<pubDate>(.*?)<\/pubDate>/.exec(item))?.[1] || "";
-    const source = (/<source[^>]*>(.*?)<\/source>/.exec(item))?.[1] || "";
-    const description = (/<description><!\[CDATA\[(.*?)\]\]><\/description>/.exec(item) || /<description>(.*?)<\/description>/.exec(item))?.[1] || "";
+    const source =
+      (/<source[^>]*>(.*?)<\/source>/.exec(item))?.[1] || "";
+    const description =
+      (/<description><!\[CDATA\[(.*?)\]\]><\/description>/.exec(item) ||
+        /<description>(.*?)<\/description>/.exec(item))?.[1] || "";
 
     if (title && link) {
       articles.push({
-        title: title.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"'),
+        title: title
+          .replace(/&amp;/g, "&")
+          .replace(/&lt;/g, "<")
+          .replace(/&gt;/g, ">")
+          .replace(/&quot;/g, '"'),
         link,
         pubDate,
         source: source.replace(/&amp;/g, "&"),
-        snippet: description.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").slice(0, 200),
+        snippet: description
+          .replace(/<[^>]+>/g, "")
+          .replace(/&amp;/g, "&")
+          .replace(/&lt;/g, "<")
+          .replace(/&gt;/g, ">")
+          .slice(0, 200),
+        keyword,
       });
     }
   }
@@ -64,7 +90,10 @@ async function fetchGoogleNewsRSS(keyword: string): Promise<NewsArticle[]> {
   return articles;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
@@ -76,13 +105,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
+    const keywords = getKeywords();
     const allArticles: NewsArticle[] = [];
     const seen = new Set<string>();
 
-    // Scan first 4 keywords to keep response fast (can expand later)
-    const keywordsToScan = SEARCH_KEYWORDS.slice(0, 4);
-
-    for (const keyword of keywordsToScan) {
+    for (const keyword of keywords) {
       const articles = await fetchGoogleNewsRSS(keyword);
       for (const article of articles) {
         if (!seen.has(article.link)) {
@@ -102,8 +129,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(200).json({
       ok: true,
       articlesFound: allArticles.length,
-      keywordsScanned: keywordsToScan.length,
-      articles: allArticles.slice(0, 50), // Return top 50
+      keywordsScanned: keywords.length,
+      keywords,
+      articles: allArticles.slice(0, 100), // Return top 100
       scannedAt: new Date().toISOString(),
     });
   } catch (err: unknown) {
