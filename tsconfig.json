@@ -22,6 +22,8 @@
     "node_modules",
     "Automated News Scan for Poverty Fraud Case Files (1)",
     "Vetting_System",
-    "prisma"
+    "prisma",
+    "src/components/admin",
+    "src/server"
   ]
 }
