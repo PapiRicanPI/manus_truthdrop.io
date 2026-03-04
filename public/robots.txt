@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block Next.js internals from indexing
+Disallow: /_next/
+Disallow: /api/
+
+Sitemap: https://truthdrop.io/sitemap.xml
