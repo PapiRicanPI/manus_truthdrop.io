@@ -49,17 +49,42 @@ export default function SplashPage() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "NewsMediaOrganization",
-          "name": "The Vault Investigates",
-          "alternateName": "TruthDrop.io",
-          "url": "https://truthdrop.io",
-          "description": "Independent investigative archive tracking how resources are misused in the US, Puerto Rico, and the Philippines.",
-          "foundingDate": "2024",
-          "founder": { "@type": "Person", "name": "TheVaultArchivist" },
-          "sameAs": ["https://x.com/PovertyVault", "https://thevaultinvestigates.cloud"]
-        })}} />
+        <link rel="canonical" href="https://truthdrop.io/" />
+        <meta name="robots" content="index, follow" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "TruthDrop – The Vault Investigates",
+            "url": "https://truthdrop.io",
+            "description": "Independent investigative archive documenting how resources are misused across the United States, Puerto Rico, and the Philippines.",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://thevaultinvestigates.cloud/?s={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "NewsMediaOrganization",
+            "name": "The Vault Investigates",
+            "alternateName": "TruthDrop.io",
+            "url": "https://truthdrop.io",
+            "description": "Independent investigative archive tracking how resources are misused in the US, Puerto Rico, and the Philippines.",
+            "foundingDate": "2024",
+            "founder": { "@type": "Person", "name": "TheVaultArchivist" },
+            "publishingPrinciples": "https://thevaultinvestigates.cloud/about",
+            "sameAs": [
+              "https://x.com/PovertyVault",
+              "https://thevaultinvestigates.cloud",
+              "https://www.facebook.com/vaultarchivist",
+              "https://www.instagram.com/povertyvault"
+            ]
+          }
+        ])}} />
       </Head>
 
       <style>{`
