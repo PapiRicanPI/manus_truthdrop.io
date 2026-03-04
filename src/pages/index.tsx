@@ -383,7 +383,7 @@ export default function SplashPage() {
             Submit a Tip
           </a>
           <a
-            href="https://ko-fi.com/thevaultinvestigates/tiers"
+            href="https://thevaultinvestigates.cloud/p/support-independent-investigative"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-outline"
