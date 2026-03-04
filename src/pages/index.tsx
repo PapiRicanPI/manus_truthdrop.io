@@ -1,535 +1,448 @@
 import Head from "next/head";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 
-export default function Home() {
+const COUNTDOWN_SECONDS = 7;
+const REDIRECT_PATH = "/tips";
+
+export default function SplashPage() {
+  const router = useRouter();
+  const [count, setCount] = useState(COUNTDOWN_SECONDS);
+  const [cancelled, setCancelled] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setCount((prev) => {
+        if (prev <= 1) {
+          clearInterval(intervalRef.current!);
+          if (!cancelled) router.push(REDIRECT_PATH);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(intervalRef.current!);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const cancel = () => {
+    setCancelled(true);
+    clearInterval(intervalRef.current!);
+  };
+
   return (
     <>
       <Head>
         <title>TruthDrop – The Vault Investigates</title>
-        <meta
-          name="description"
-          content="Secure tip and feedback system documenting case files on poverty grifters and the aid industry."
-        />
+        <meta name="description" content="An independent archive documenting how resources are misused — across the United States, Puerto Rico, and the Philippines." />
         <meta property="og:title" content="TruthDrop – The Vault Investigates" />
-        <meta
-          property="og:description"
-          content="Secure tip and feedback system documenting case files on poverty grifters and the aid industry."
-        />
+        <meta property="og:description" content="An independent archive documenting how resources are misused — across the United States, Puerto Rico, and the Philippines." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://truthdrop.io" />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@PovertyVault" />
         <meta name="twitter:title" content="TruthDrop – The Vault Investigates" />
-        <meta
-          name="twitter:description"
-          content="Secure tip and feedback system documenting case files on poverty grifters and the aid industry."
-        />
+        <meta name="twitter:description" content="An independent archive documenting how resources are misused." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "NewsMediaOrganization",
+          "name": "The Vault Investigates",
+          "alternateName": "TruthDrop.io",
+          "url": "https://truthdrop.io",
+          "description": "Independent investigative archive tracking how resources are misused in the US, Puerto Rico, and the Philippines.",
+          "foundingDate": "2024",
+          "founder": { "@type": "Person", "name": "TheVaultArchivist" },
+          "sameAs": ["https://x.com/PovertyVault", "https://thevaultinvestigates.cloud"]
+        })}} />
       </Head>
 
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-          background: #0d0f14;
-          color: #e2e8f0;
-          font-family: 'Inter', system-ui, -apple-system, sans-serif;
-          line-height: 1.6;
-          min-height: 100vh;
+        :root {
+          --bg: #070707;
+          --gold: #c8973a;
+          --gold-dim: rgba(200,151,58,0.15);
+          --white: #f5f5f0;
+          --grey: #8a8a8a;
+          --ticker-h: 36px;
         }
 
-        a { color: #4F7FFF; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-
-        .page {
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
+        html, body {
+          width: 100%; height: 100%;
+          background: var(--bg);
+          color: var(--white);
+          font-family: 'Courier Prime', 'Courier New', monospace;
+          overflow-x: hidden;
         }
 
-        nav {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 1rem 2rem;
-          border-bottom: 1px solid #1e2330;
-          background: #0d0f14;
-          position: sticky;
-          top: 0;
+        /* Grain overlay */
+        body::before {
+          content: '';
+          position: fixed; inset: 0; z-index: 0;
+          pointer-events: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+          background-repeat: repeat;
+          opacity: 0.6;
+        }
+
+        /* Ticker */
+        .ticker-wrap {
+          position: fixed; top: 0; left: 0; right: 0;
+          height: var(--ticker-h);
+          background: #0d0d0d;
+          border-bottom: 1px solid rgba(200,151,58,0.22);
+          overflow: hidden;
           z-index: 100;
+          display: flex; align-items: center;
         }
-
-        .nav-brand {
-          display: flex;
-          align-items: center;
-          gap: 0.6rem;
-          font-weight: 700;
-          font-size: 1.1rem;
-          color: #e2e8f0;
-          letter-spacing: 0.02em;
-        }
-
-        .nav-brand .shield {
-          width: 28px;
-          height: 28px;
-          background: #4F7FFF;
-          clip-path: polygon(50% 0%, 100% 15%, 100% 60%, 50% 100%, 0% 60%, 0% 15%);
+        .ticker-label {
           flex-shrink: 0;
-        }
-
-        .nav-links {
-          display: flex;
-          align-items: center;
-          gap: 1.5rem;
-          font-size: 0.9rem;
-        }
-
-        .nav-links a { color: #94a3b8; }
-        .nav-links a:hover { color: #e2e8f0; text-decoration: none; }
-
-        .btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4rem;
-          padding: 0.5rem 1.1rem;
-          border-radius: 6px;
-          font-size: 0.875rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: opacity 0.15s, transform 0.1s;
-          border: none;
-          text-decoration: none !important;
-        }
-        .btn:hover { opacity: 0.88; transform: translateY(-1px); }
-        .btn-primary { background: #4F7FFF; color: #fff; }
-        .btn-outline { background: transparent; color: #4F7FFF; border: 1.5px solid #4F7FFF; }
-        .btn-lg { padding: 0.75rem 1.6rem; font-size: 1rem; }
-
-        .hero {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          padding: 5rem 1.5rem 4rem;
-          max-width: 760px;
-          margin: 0 auto;
-          width: 100%;
-        }
-
-        .hero-badge {
-          display: inline-block;
-          background: rgba(79,127,255,0.12);
-          color: #4F7FFF;
-          border: 1px solid rgba(79,127,255,0.3);
-          border-radius: 999px;
-          padding: 0.3rem 0.9rem;
-          font-size: 0.78rem;
-          font-weight: 600;
-          letter-spacing: 0.08em;
+          padding: 0 14px;
+          font-family: 'Courier Prime', monospace;
+          font-size: 10px;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
-          margin-bottom: 1.5rem;
+          color: var(--gold);
+          border-right: 1px solid rgba(200,151,58,0.28);
+          white-space: nowrap;
+        }
+        .ticker-track { flex: 1; overflow: hidden; }
+        .ticker-inner {
+          display: inline-flex;
+          white-space: nowrap;
+          animation: ticker-scroll 24s linear infinite;
+        }
+        .ticker-inner span {
+          font-family: 'Courier Prime', monospace;
+          font-size: 11px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: var(--grey);
+          padding: 0 26px;
+        }
+        .ticker-inner span.sep {
+          color: var(--gold);
+          padding: 0 4px;
+          font-size: 10px;
+        }
+        @keyframes ticker-scroll {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
 
-        .hero h1 {
-          font-size: clamp(2rem, 5vw, 3rem);
-          font-weight: 800;
-          line-height: 1.15;
-          color: #f1f5f9;
-          margin-bottom: 1.25rem;
-          letter-spacing: -0.02em;
+        /* Layout */
+        .page {
+          position: relative; z-index: 1;
+          min-height: 100vh;
+          padding-top: var(--ticker-h);
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
         }
 
-        .hero h1 span { color: #4F7FFF; }
-
-        .hero p {
-          font-size: 1.1rem;
-          color: #94a3b8;
-          max-width: 580px;
-          margin: 0 auto 2.5rem;
+        /* Logo */
+        .logo {
+          font-family: 'Oswald', sans-serif;
+          font-size: clamp(2.4rem, 6vw, 4rem);
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          line-height: 1;
+          margin-bottom: 6px;
         }
+        .logo .truth { color: var(--white); }
+        .logo .drop  { color: var(--gold); }
 
-        .hero-actions {
-          display: flex;
-          gap: 1rem;
-          flex-wrap: wrap;
-          justify-content: center;
+        .logo-sub {
+          font-family: 'Courier Prime', monospace;
+          font-size: 11px;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: var(--grey);
+          margin-bottom: 48px;
         }
 
         .divider {
-          width: 100%;
-          max-width: 860px;
-          margin: 0 auto;
-          border: none;
-          border-top: 1px solid #1e2330;
+          width: 48px; height: 2px;
+          background: var(--gold);
+          margin: 0 auto 38px;
+          opacity: 0.65;
         }
 
-        .section {
-          padding: 4rem 1.5rem;
-          max-width: 860px;
-          margin: 0 auto;
-          width: 100%;
-        }
-
-        .section-label {
-          font-size: 0.75rem;
-          font-weight: 700;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: #4F7FFF;
-          margin-bottom: 0.6rem;
-        }
-
-        .section h2 {
-          font-size: clamp(1.4rem, 3vw, 1.9rem);
-          font-weight: 700;
-          color: #f1f5f9;
-          margin-bottom: 1rem;
-        }
-
-        .section p {
-          color: #94a3b8;
-          font-size: 1rem;
-          max-width: 640px;
-        }
-
-        .cards {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-          gap: 1.25rem;
-          margin-top: 2.5rem;
-        }
-
-        .card {
-          background: #131720;
-          border: 1px solid #1e2330;
-          border-radius: 10px;
-          padding: 1.5rem;
-        }
-
-        .card-icon {
-          width: 38px;
-          height: 38px;
-          background: rgba(79,127,255,0.12);
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 1rem;
-          font-size: 1.2rem;
-        }
-
-        .card h3 {
-          font-size: 0.95rem;
-          font-weight: 700;
-          color: #e2e8f0;
-          margin-bottom: 0.4rem;
-        }
-
-        .card p {
-          font-size: 0.875rem;
-          color: #64748b;
-          line-height: 1.5;
-        }
-
-        .steps {
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-          margin-top: 2rem;
-        }
-
-        .step {
-          display: flex;
-          gap: 1.25rem;
-          align-items: flex-start;
-        }
-
-        .step-num {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          background: rgba(79,127,255,0.15);
-          border: 1.5px solid rgba(79,127,255,0.4);
-          color: #4F7FFF;
-          font-size: 0.8rem;
-          font-weight: 700;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          margin-top: 2px;
-        }
-
-        .step-body h3 {
-          font-size: 0.95rem;
-          font-weight: 700;
-          color: #e2e8f0;
-          margin-bottom: 0.25rem;
-        }
-
-        .step-body p {
-          font-size: 0.875rem;
-          color: #64748b;
-        }
-
-        .cta-banner {
-          background: linear-gradient(135deg, #131a2e 0%, #0d1220 100%);
-          border: 1px solid rgba(79,127,255,0.2);
-          border-radius: 12px;
-          padding: 2.5rem 2rem;
-          text-align: center;
-          margin: 2rem auto 4rem;
-          max-width: 860px;
-          width: calc(100% - 3rem);
-        }
-
-        .cta-banner h2 {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #f1f5f9;
-          margin-bottom: 0.75rem;
-        }
-
-        .cta-banner p {
-          color: #94a3b8;
-          font-size: 0.95rem;
-          margin-bottom: 1.75rem;
-          max-width: 520px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-
-        .cta-actions {
-          display: flex;
-          gap: 1rem;
-          justify-content: center;
-          flex-wrap: wrap;
-        }
-
-        footer {
-          border-top: 1px solid #1e2330;
-          padding: 1.5rem 2rem;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 0.75rem;
-          font-size: 0.8rem;
-          color: #475569;
-        }
-
-        .footer-brand {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
+        /* Headline */
+        .headline {
+          font-family: 'Oswald', sans-serif;
+          font-size: clamp(1.55rem, 4vw, 2.5rem);
           font-weight: 600;
-          color: #64748b;
+          line-height: 1.25;
+          text-align: center;
+          max-width: 680px;
+          padding: 0 24px;
+          color: var(--white);
+          margin-bottom: 16px;
+        }
+        .headline em {
+          font-style: normal;
+          color: var(--gold);
         }
 
-        .footer-shield {
-          width: 16px;
-          height: 16px;
-          background: #4F7FFF;
-          clip-path: polygon(50% 0%, 100% 15%, 100% 60%, 50% 100%, 0% 60%, 0% 15%);
-          opacity: 0.7;
+        .sub {
+          font-family: 'Courier Prime', monospace;
+          font-size: clamp(0.85rem, 2vw, 1rem);
+          color: var(--grey);
+          text-align: center;
+          max-width: 520px;
+          padding: 0 24px;
+          line-height: 1.65;
+          margin-bottom: 48px;
         }
 
-        .footer-links {
+        /* Buttons */
+        .btn-group {
           display: flex;
-          gap: 1.25rem;
+          flex-wrap: wrap;
+          gap: 14px;
+          justify-content: center;
+          padding: 0 24px;
+          margin-bottom: 52px;
         }
 
-        .footer-links a { color: #475569; }
-        .footer-links a:hover { color: #94a3b8; text-decoration: none; }
+        .btn {
+          display: inline-flex; align-items: center; justify-content: center;
+          font-family: 'Courier Prime', monospace;
+          font-size: 13px;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          text-decoration: none !important;
+          padding: 13px 28px;
+          border-radius: 2px;
+          cursor: pointer;
+          transition: background 0.18s, color 0.18s, border-color 0.18s;
+          white-space: nowrap;
+          border: none;
+        }
+        .btn-primary {
+          background: var(--gold);
+          color: #070707;
+          border: 1px solid var(--gold);
+        }
+        .btn-primary:hover { background: #dba94a; }
 
-        @media (max-width: 600px) {
-          nav { padding: 0.75rem 1rem; }
-          .nav-links { gap: 0.75rem; }
-          footer { flex-direction: column; align-items: flex-start; }
+        .btn-outline {
+          background: transparent;
+          color: var(--gold);
+          border: 1px solid rgba(200,151,58,0.5);
+        }
+        .btn-outline:hover { background: var(--gold-dim); border-color: var(--gold); }
+
+        .btn-ghost {
+          background: transparent;
+          color: var(--grey);
+          border: 1px solid rgba(138,138,138,0.28);
+        }
+        .btn-ghost:hover { color: var(--white); border-color: rgba(245,245,240,0.38); }
+
+        /* Countdown */
+        .countdown-wrap {
+          display: flex; flex-direction: column; align-items: center;
+          gap: 10px;
+          margin-bottom: 56px;
+          width: 100%;
+          max-width: 340px;
+          padding: 0 24px;
+        }
+
+        .countdown-label {
+          font-family: 'Courier Prime', monospace;
+          font-size: 11px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--grey);
+        }
+        .countdown-label .num { color: var(--gold); font-weight: 700; }
+
+        .progress-track {
+          width: 100%;
+          height: 3px;
+          background: rgba(200,151,58,0.13);
+          border-radius: 2px;
+          overflow: hidden;
+        }
+        .progress-bar {
+          height: 100%;
+          background: linear-gradient(90deg, var(--gold) 0%, #e8b050 100%);
+          border-radius: 2px;
+          transform-origin: left;
+          transition: transform 1s linear;
+        }
+
+        .skip-link {
+          font-family: 'Courier Prime', monospace;
+          font-size: 11px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--grey);
+          text-decoration: none !important;
+          opacity: 0.55;
+          cursor: pointer;
+          background: none; border: none;
+          transition: opacity 0.18s;
+        }
+        .skip-link:hover { opacity: 1; color: var(--white); }
+
+        /* Footer */
+        footer {
+          position: relative; z-index: 1;
+          width: 100%;
+          border-top: 1px solid rgba(200,151,58,0.1);
+          padding: 18px 24px;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 5px 18px;
+        }
+
+        .footer-link {
+          font-family: 'Courier Prime', monospace;
+          font-size: 11px;
+          letter-spacing: 0.13em;
+          text-transform: uppercase;
+          color: var(--grey);
+          text-decoration: none !important;
+          transition: color 0.18s;
+        }
+        .footer-link:hover { color: var(--gold); }
+
+        .footer-sep { color: rgba(200,151,58,0.28); font-size: 10px; }
+
+        .footer-copy {
+          width: 100%;
+          text-align: center;
+          font-family: 'Courier Prime', monospace;
+          font-size: 10px;
+          letter-spacing: 0.11em;
+          color: rgba(138,138,138,0.38);
+          margin-top: 8px;
+        }
+
+        @media (max-width: 480px) {
+          .btn-group { flex-direction: column; align-items: stretch; }
+          .btn { text-align: center; }
         }
       `}</style>
 
-      <div className="page">
-        <nav>
-          <div className="nav-brand">
-            <div className="shield" aria-hidden="true" />
-            TruthDrop
-          </div>
-          <div className="nav-links">
-            <a href="https://vault.povertypimpslayerthevault.io/gate.html">The Vault</a>
-            <a href="https://vault.povertypimpslayerthevault.io/home.html">Evidence Drop</a>
-            <a href="https://vet.thevault.watch/" className="btn btn-primary">
-              Apply for Access
-            </a>
-          </div>
-        </nav>
-
-        <section className="hero">
-          <div className="hero-badge">Investigative Research Platform</div>
-          <h1>
-            Follow the money.<br />
-            <span>Expose the grift.</span>
-          </h1>
-          <p>
-            TruthDrop is a vetted investigative platform documenting case files on poverty
-            grifters and the aid industry — across the Philippines, Puerto Rico, and the
-            United States.
-          </p>
-          <div className="hero-actions">
-            <a
-              href="https://vault.povertypimpslayerthevault.io/home.html"
-              className="btn btn-primary btn-lg"
-            >
-              Submit a Tip
-            </a>
-            <a
-              href="https://vault.povertypimpslayerthevault.io/gate.html"
-              className="btn btn-outline btn-lg"
-            >
-              Enter The Vault
-            </a>
-          </div>
-        </section>
-
-        <hr className="divider" />
-
-        <section className="section">
-          <div className="section-label">What is TruthDrop</div>
-          <h2>An independent archive of accountability</h2>
-          <p>
-            TruthDrop is built for journalists, researchers, archivists, and community members
-            who follow government spending, disaster aid, and nonprofit abuse. It is independent,
-            non-partisan, and funded by no NGO or corporate money.
-          </p>
-          <div className="cards">
-            <div className="card">
-              <div className="card-icon">🗄️</div>
-              <h3>Case Files</h3>
-              <p>
-                Structured case files on poverty scams, aid fraud, and nonprofit misconduct —
-                cross-referenced with public records.
-              </p>
-            </div>
-            <div className="card">
-              <div className="card-icon">🔒</div>
-              <h3>Secure Intake</h3>
-              <p>
-                Anonymous tip submission with end-to-end encryption. No names required.
-                Your safety comes first.
-              </p>
-            </div>
-            <div className="card">
-              <div className="card-icon">🌐</div>
-              <h3>Three Regions</h3>
-              <p>
-                Focused on the Philippines, Puerto Rico, and the United States — where
-                disaster aid and poverty programs are most vulnerable to capture.
-              </p>
-            </div>
-            <div className="card">
-              <div className="card-icon">🧪</div>
-              <h3>Vetted Access</h3>
-              <p>
-                Internal tools and case workspaces are restricted to vetted researchers.
-                All access is reviewed for safety and fit.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <hr className="divider" />
-
-        <section className="section">
-          <div className="section-label">How It Works</div>
-          <h2>From tip to case file</h2>
-          <div className="steps">
-            <div className="step">
-              <div className="step-num">1</div>
-              <div className="step-body">
-                <h3>Submit a tip or document</h3>
-                <p>
-                  Anyone can submit a confidential tip through the public Evidence Drop page.
-                  No account required. Remove personal details before submitting if you need
-                  to stay anonymous.
-                </p>
-              </div>
-            </div>
-            <div className="step">
-              <div className="step-num">2</div>
-              <div className="step-body">
-                <h3>Vetted researchers review and cross-reference</h3>
-                <p>
-                  Approved researchers access the internal TruthDrop workspace to review tips,
-                  link evidence to case files, and cross-check with public procurement and
-                  award data.
-                </p>
-              </div>
-            </div>
-            <div className="step">
-              <div className="step-num">3</div>
-              <div className="step-body">
-                <h3>Case files are published to The Vault</h3>
-                <p>
-                  Verified case files are published to The Vault — a public archive of
-                  documented poverty scams, searchable by region, program, and actor.
-                </p>
-              </div>
-            </div>
-            <div className="step">
-              <div className="step-num">4</div>
-              <div className="step-body">
-                <h3>Apply for investigative access</h3>
-                <p>
-                  Journalists, researchers, and community investigators can apply for vetted
-                  access to the internal workspace. All applications are reviewed manually.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="cta-banner">
-          <h2>Ready to contribute?</h2>
-          <p>
-            Submit a tip anonymously, explore The Vault's public case files, or apply for
-            vetted investigative access.
-          </p>
-          <div className="cta-actions">
-            <a
-              href="https://vault.povertypimpslayerthevault.io/home.html"
-              className="btn btn-primary btn-lg"
-            >
-              Submit a Tip
-            </a>
-            <a
-              href="https://vault.povertypimpslayerthevault.io/resources.html"
-              className="btn btn-outline btn-lg"
-            >
-              Investigator Resources
-            </a>
-            <a
-              href="https://vet.thevault.watch/"
-              className="btn btn-outline btn-lg"
-            >
-              Apply for Access
-            </a>
+      {/* Ticker */}
+      <div className="ticker-wrap" aria-hidden="true">
+        <div className="ticker-label">Live</div>
+        <div className="ticker-track">
+          <div className="ticker-inner">
+            {["Independent","Disabled U.S. Veteran","United States","Puerto Rico","Philippines","No institutional funding","Follow the money","Expose the grift",
+              "Independent","Disabled U.S. Veteran","United States","Puerto Rico","Philippines","No institutional funding","Follow the money","Expose the grift"
+            ].map((item, i) => (
+              item === "·" ? <span key={i} className="sep">·</span> : (
+                <span key={i}>{item}</span>
+              )
+            ))}
           </div>
         </div>
-
-        <footer>
-          <div className="footer-brand">
-            <div className="footer-shield" aria-hidden="true" />
-            © 2026 TruthDrop.io – Investigative Research Platform
-          </div>
-          <div className="footer-links">
-            <a href="https://vault.povertypimpslayerthevault.io/gate.html">The Vault</a>
-            <a href="https://vault.povertypimpslayerthevault.io/home.html">Evidence Drop</a>
-            <a href="https://vault.povertypimpslayerthevault.io/resources.html">Resources</a>
-            <a href="https://vet.thevault.watch/">Apply</a>
-          </div>
-        </footer>
       </div>
+
+      <main className="page">
+        {/* Logo */}
+        <div className="logo" aria-label="TruthDrop">
+          <span className="truth">Truth</span><span className="drop">Drop</span>
+        </div>
+        <div className="logo-sub">The Vault Investigates</div>
+
+        <div className="divider" />
+
+        {/* Headline */}
+        <h1 className="headline">
+          Every headline you see is just the{" "}
+          <em>tip of the iceberg.</em>
+          <br />
+          We follow the money.
+        </h1>
+
+        <p className="sub">
+          An independent archive documenting how resources are misused —
+          across the United States, Puerto Rico, and the Philippines.
+        </p>
+
+        {/* Buttons */}
+        <div className="btn-group">
+          <a href="/tips" className="btn btn-primary" onClick={cancel}>
+            Submit a Tip
+          </a>
+          <a
+            href="https://ko-fi.com/thevaultinvestigates/tiers"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-outline"
+            onClick={cancel}
+          >
+            Fund the Archive
+          </a>
+          <a
+            href="https://thevaultinvestigates.cloud/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-ghost"
+            onClick={cancel}
+          >
+            Read Investigations
+          </a>
+        </div>
+
+        {/* Countdown */}
+        <div className="countdown-wrap">
+          {cancelled ? (
+            <div className="countdown-label">Redirect cancelled</div>
+          ) : (
+            <>
+              <div className="countdown-label">
+                Redirecting to tip intake in{" "}
+                <span className="num">{count}</span>s
+              </div>
+              <div className="progress-track">
+                <div
+                  className="progress-bar"
+                  style={{
+                    transform: `scaleX(${count / COUNTDOWN_SECONDS})`,
+                  }}
+                />
+              </div>
+              <button className="skip-link" onClick={() => { cancel(); router.push(REDIRECT_PATH); }}>
+                Skip →
+              </button>
+            </>
+          )}
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer>
+        <a href="https://x.com/PovertyVault" target="_blank" rel="noopener noreferrer" className="footer-link">X · @PovertyVault</a>
+        <span className="footer-sep">·</span>
+        <a href="https://www.facebook.com/vaultarchivist" target="_blank" rel="noopener noreferrer" className="footer-link">Facebook</a>
+        <span className="footer-sep">·</span>
+        <a href="https://www.instagram.com/povertyvault" target="_blank" rel="noopener noreferrer" className="footer-link">Instagram</a>
+        <span className="footer-sep">·</span>
+        <a href="https://ko-fi.com/thevaultinvestigates" target="_blank" rel="noopener noreferrer" className="footer-link">Ko-fi</a>
+        <span className="footer-sep">·</span>
+        <a href="https://www.paypal.com/ncp/payment/JH4X7243NJMRE" target="_blank" rel="noopener noreferrer" className="footer-link">PayPal</a>
+        <span className="footer-sep">·</span>
+        <a href="https://gofund.me/524735536" target="_blank" rel="noopener noreferrer" className="footer-link">GoFundMe</a>
+        <div className="footer-copy">© 2026 TruthDrop.io – Investigative Research Platform</div>
+      </footer>
     </>
   );
 }
