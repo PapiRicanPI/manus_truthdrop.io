@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/tips",
+      "destination": "https://truthdrop-5buxndbh.manus.space/tips",
+      "permanent": false
+    }
+  ]
+}

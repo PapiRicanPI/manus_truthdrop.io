@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
 const COUNTDOWN_SECONDS = 7;
-const REDIRECT_PATH = "/tips";
+const REDIRECT_PATH = "https://truthdrop-5buxndbh.manus.space/tips";
 
 export default function SplashPage() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function SplashPage() {
       setCount((prev) => {
         if (prev <= 1) {
           clearInterval(intervalRef.current!);
-          if (!cancelled) router.push(REDIRECT_PATH);
+          if (!cancelled) { window.location.href = REDIRECT_PATH; }
           return 0;
         }
         return prev - 1;
@@ -379,7 +379,7 @@ export default function SplashPage() {
 
         {/* Buttons */}
         <div className="btn-group">
-          <a href="/tips" className="btn btn-primary" onClick={cancel}>
+          <a href="https://truthdrop-5buxndbh.manus.space/tips" target="_blank" rel="noopener noreferrer" className="btn btn-primary" onClick={cancel}>
             Submit a Tip
           </a>
           <a
@@ -420,7 +420,7 @@ export default function SplashPage() {
                   }}
                 />
               </div>
-              <button className="skip-link" onClick={() => { cancel(); router.push(REDIRECT_PATH); }}>
+              <button className="skip-link" onClick={() => { cancel(); window.location.href = REDIRECT_PATH; }}>
                 Skip →
               </button>
             </>
