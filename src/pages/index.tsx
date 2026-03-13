@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
 const COUNTDOWN_SECONDS = 7;
-const REDIRECT_PATH = "https://truthdrop-5buxndbh.manus.space/tips";
+const REDIRECT_PATH = "https://truthdrop.io/tips";
 
 export default function SplashPage() {
   const router = useRouter();
@@ -407,8 +407,17 @@ export default function SplashPage() {
 
         {/* Buttons */}
         <div className="btn-group">
-          <a href="https://truthdrop-5buxndbh.manus.space/tips" target="_blank" rel="noopener noreferrer" className="btn btn-primary" onClick={cancel}>
+          <a href="https://truthdrop.io/tips" target="_blank" rel="noopener noreferrer" className="btn btn-primary" onClick={cancel}>
             Submit a Tip
+          </a>
+          <a
+            href="https://vet.thevaultinvestigates.cloud/apply"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-outline"
+            onClick={cancel}
+          >
+            Apply for Access
           </a>
           <a
             href="https://thevaultinvestigates.cloud/p/support-independent-investigative"
