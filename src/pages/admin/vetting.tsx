@@ -497,7 +497,7 @@ export default function VettingPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1.25rem" }}>
               {USER_ROLES.map(r => (
                 <div key={r.value} onClick={() => setAssignedRole(r.value)}
-                  style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", background: "#1a1a2e", border: `2px solid ${assignedRole === r.value ? "#f59e0b" : "#1e293b"}`, borderRadius: 8, padding: "0.75rem 1rem", cursor: "pointer", background: assignedRole === r.value ? "#f59e0b0d" : "#1a1a2e" }}>
+                  style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", background: assignedRole === r.value ? "#f59e0b0d" : "#1a1a2e", border: `2px solid ${assignedRole === r.value ? "#f59e0b" : "#1e293b"}`, borderRadius: 8, padding: "0.75rem 1rem", cursor: "pointer" }}>
                   <input type="radio" name="role" value={r.value} checked={assignedRole === r.value} onChange={() => setAssignedRole(r.value)} style={{ marginTop: 3, accentColor: "#f59e0b" }} />
                   <div>
                     <div style={{ color: "#f1f5f9", fontWeight: 600, fontSize: "0.9rem" }}>{r.label}</div>
