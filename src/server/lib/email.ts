@@ -207,3 +207,24 @@ export async function sendNewApplicationNotification({
 
   await transporter.sendMail(mailOptions);
 }
+
+/**
+ * Send "more information needed" email to applicant
+ */
+export async function sendMoreInfoEmail({
+  to,
+  name,
+  infoMessage,
+}: {
+  to: string;
+  name: string;
+  infoMessage: string;
+}) {
+  const mailOptions = {
+    from: `"The Vault Investigates" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+    to: to,
+    subject: "Action Required: Additional Information Needed for Your Application",
+    html: `<!DOCTYPE html><html><head><style>body{font-family:Arial,sans-serif;line-height:1.6;color:#333}.container{max-width:600px;margin:0 auto;padding:20px}.header{background-color:#1a1a1a;color:#f59e0b;padding:20px;text-align:center}.content{background-color:#f9f9f9;padding:30px}.info-box{background:#fff3cd;border:1px solid #f59e0b;border-radius:6px;padding:16px;margin:16px 0}.footer{text-align:center;padding:20px;color:#666;font-size:12px}</style></head><body><div class="container"><div class="header"><h1>The Vault Investigates</h1><p>Application Update</p></div><div class="content"><h2>Dear ${name},</h2><p>Thank you for your application to access The Vault Investigates database. Our review team has examined your submission and requires additional information before we can make a final decision.</p><div class="info-box"><h3>Information Needed:</h3><p>${infoMessage}</p></div><p>Please reply to this email with the requested information, or submit a new application at <a href="https://vet.thevault.watch">vet.thevault.watch</a> with the additional details included.</p><p>Your application will remain under review until we receive the requested information.</p><p>Best regards,<br><strong>The Vault Investigates Team</strong></p></div><div class="footer"><p>This is an automated message from The Vault Investigates vetting system.</p><p>&copy; 2025 The Vault Investigates. All rights reserved.</p></div></div></body></html>`,
+  };
+  await transporter.sendMail(mailOptions);
+}
