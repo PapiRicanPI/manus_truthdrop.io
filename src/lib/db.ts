@@ -243,12 +243,37 @@ export async function recordView(researcherId: number, caseId: string, caseTitle
 
 let _pool: mysql.Pool | null = null;
 
+function parseDbUrl(url: string): mysql.PoolOptions {
+  // Strip the ssl={...} query param that TiDB appends — mysql2 doesn't parse it
+  const cleanUrl = url.replace(/[?&]ssl=\{[^}]*\}/, "");
+  try {
+    const u = new URL(cleanUrl);
+    return {
+      host: u.hostname,
+      port: u.port ? parseInt(u.port, 10) : 4000,
+      user: decodeURIComponent(u.username),
+      password: decodeURIComponent(u.password),
+      database: u.pathname.replace(/^\//, ""),
+      ssl: { rejectUnauthorized: true },
+      waitForConnections: true,
+      connectionLimit: 5,
+      connectTimeout: 10000,
+    };
+  } catch {
+    // Fallback: pass the cleaned URL directly
+    return { uri: cleanUrl, ssl: { rejectUnauthorized: true }, connectionLimit: 5 } as unknown as mysql.PoolOptions;
+  }
+}
+
 async function getRawConnection(): Promise<mysql.Pool | null> {
   if (_pool) return _pool;
   const url = process.env.DATABASE_URL;
-  if (!url) return null;
+  if (!url) {
+    console.error("[TruthDrop DB] DATABASE_URL not set");
+    return null;
+  }
   try {
-    _pool = mysql.createPool(url);
+    _pool = mysql.createPool(parseDbUrl(url));
     return _pool;
   } catch (err) {
     console.error("[TruthDrop DB] Pool creation failed:", err);
