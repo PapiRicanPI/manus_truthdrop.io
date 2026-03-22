@@ -14,6 +14,7 @@ interface User {
   foundingInvestigator: boolean;
   foundingInvestigatorYear: number | null;
   createdAt: string;
+  hasLogin?: boolean;
 }
 
 const ROLE_OPTIONS = [
@@ -199,6 +200,9 @@ export default function UsersPage() {
                       {u.alias && <div className="email">{u.name}</div>}
                       <div className="email">{u.email}</div>
                       {u.country && <div className="org">{u.country}</div>}
+                      {u.hasLogin === false && (
+                        <div style={{ marginTop: "0.3rem", fontSize: "0.7rem", color: "#f59e0b", background: "#1a120044", border: "1px solid #f59e0b55", borderRadius: "4px", padding: "0.1rem 0.5rem", display: "inline-block" }}>⚠ Approved — no login yet</div>
+                      )}
                     </td>
                     <td className="org">{u.organization || "—"}</td>
                     <td>
