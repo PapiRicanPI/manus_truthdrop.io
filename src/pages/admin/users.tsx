@@ -82,10 +82,10 @@ export default function UsersPage() {
   async function toggleFI(userId: string, current: boolean) {
     setSaving(userId + "_fi");
     const year = !current ? new Date().getFullYear() : null;
-    const res = await fetch("/api/admin/founding-investigator", {
+    const res = await fetch("/api/admin/users", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, foundingInvestigator: !current, foundingInvestigatorYear: year }),
+      body: JSON.stringify({ id: userId, foundingInvestigator: !current, foundingInvestigatorYear: year }),
     });
     if (res.ok) {
       setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, foundingInvestigator: !current, foundingInvestigatorYear: year } : u));
