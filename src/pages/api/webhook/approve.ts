@@ -8,35 +8,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
-import fs from "fs";
-import path from "path";
 import nodemailer from "nodemailer";
-
-const DATA_FILE = path.join("/tmp", "vetting_applications.json");
-const USERS_FILE = path.join("/tmp", "truthdrop_users.json");
-
-interface TruthDropUser {
-  id: string;
-  name: string;
-  email: string;
-  passwordHash: string;
-  role: string;
-  organization: string | null;
-  createdAt: string;
-}
-
-function readUsers(): TruthDropUser[] {
-  try {
-    if (fs.existsSync(USERS_FILE)) {
-      return JSON.parse(fs.readFileSync(USERS_FILE, "utf-8"));
-    }
-  } catch {}
-  return [];
-}
-
-function writeUsers(users: TruthDropUser[]) {
-  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf-8");
-}
+import { getResearcherByEmail, createResearcher, updateResearcherRole } from "../../../lib/db";
 
 function generateSecurePassword(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%";
@@ -148,45 +121,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const role = normalizeRole(assignedRole);
 
-  // Check if user already exists
-  const users = readUsers();
-  const existing = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+  // Check if user already exists in the database
+  const existing = await getResearcherByEmail(email);
   if (existing) {
     // Update their role if they already exist
-    existing.role = role;
-    writeUsers(users);
+    await updateResearcherRole(existing.id, role);
     return res.status(200).json({ success: true, action: "role_updated", role });
   }
 
-  // Generate password and create user
+  // Generate password and create user in the database
   const password = generateSecurePassword();
   const passwordHash = await bcrypt.hash(password, 12);
-  const newUser: TruthDropUser = {
-    id: crypto.randomUUID(),
+  await createResearcher({
     name,
     email: email.toLowerCase(),
+    organization: organization || undefined,
     passwordHash,
     role,
-    organization: organization || null,
-    createdAt: new Date().toISOString(),
-  };
-  users.push(newUser);
-  writeUsers(users);
-
-  // Also update the vetting applications file to mark provisioned
-  try {
-    if (fs.existsSync(DATA_FILE)) {
-      const apps = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
-      const idx = apps.findIndex((a: { email: string }) => a.email.toLowerCase() === email.toLowerCase());
-      if (idx !== -1) {
-        apps[idx].provisionedAt = new Date().toISOString();
-        apps[idx].generatedPassword = password;
-        fs.writeFileSync(DATA_FILE, JSON.stringify(apps, null, 2), "utf-8");
-      }
-    }
-  } catch (e) {
-    console.error("[Webhook] Failed to update vetting record:", e);
-  }
+  });
 
   // Send credentials email
   try {

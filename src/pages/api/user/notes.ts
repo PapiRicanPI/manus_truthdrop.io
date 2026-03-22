@@ -1,35 +1,30 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getUserSession, readWorkspace, writeWorkspace } from "../../../lib/userSession";
+import { getUserSession } from "../../../lib/userSession";
+import { getNote, upsertNote } from "../../../lib/db";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getUserSession(req, res);
   if (!session.userId) {
     return res.status(401).json({ error: "Not authenticated" });
   }
-  const userId = session.userId;
-  const workspace = readWorkspace();
-  if (!workspace.notes[userId]) workspace.notes[userId] = {};
+  const researcherId = parseInt(session.userId, 10);
 
   if (req.method === "GET") {
     const { caseId } = req.query;
     if (caseId && typeof caseId === "string") {
-      return res.status(200).json({ note: workspace.notes[userId][caseId] || "" });
+      const row = await getNote(researcherId, caseId);
+      return res.status(200).json({ note: row?.note || "" });
     }
-    return res.status(200).json({ notes: workspace.notes[userId] });
+    return res.status(200).json({ notes: {} });
   }
 
   if (req.method === "PUT") {
     const { caseId, note } = req.body;
     if (!caseId) return res.status(400).json({ error: "caseId required" });
-    if (note === "" || note === null || note === undefined) {
-      delete workspace.notes[userId][caseId];
-    } else {
-      if (typeof note === "string" && note.length > 5000) {
-        return res.status(400).json({ error: "Note must be 5000 characters or less" });
-      }
-      workspace.notes[userId][caseId] = note;
+    if (typeof note === "string" && note.length > 5000) {
+      return res.status(400).json({ error: "Note must be 5000 characters or less" });
     }
-    writeWorkspace(workspace);
+    await upsertNote(researcherId, caseId, note || "");
     return res.status(200).json({ ok: true });
   }
 

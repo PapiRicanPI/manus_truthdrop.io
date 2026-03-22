@@ -1,59 +1,41 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import crypto from "crypto";
-import { getUserSession, readWorkspace, writeWorkspace, Project } from "../../../lib/userSession";
+import { getUserSession } from "../../../lib/userSession";
+import { getProjects, createProject, updateProject, deleteProject } from "../../../lib/db";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getUserSession(req, res);
   if (!session.userId) {
     return res.status(401).json({ error: "Not authenticated" });
   }
-  const userId = session.userId;
-  const workspace = readWorkspace();
-  if (!workspace.projects[userId]) workspace.projects[userId] = [];
+  const researcherId = parseInt(session.userId, 10);
 
   if (req.method === "GET") {
-    return res.status(200).json({ projects: workspace.projects[userId] });
+    const projects = await getProjects(researcherId);
+    return res.status(200).json({ projects });
   }
 
   if (req.method === "POST") {
     const { name, description } = req.body;
     if (!name?.trim()) return res.status(400).json({ error: "Project name required" });
-    const project: Project = {
-      id: crypto.randomUUID(),
-      name: name.trim(),
-      description: description?.trim() || "",
-      caseIds: [],
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-    workspace.projects[userId].push(project);
-    writeWorkspace(workspace);
-    return res.status(201).json({ ok: true, project });
+    const id = await createProject(researcherId, name.trim(), description?.trim() || "");
+    return res.status(201).json({ ok: true, project: { id } });
   }
 
   if (req.method === "PATCH") {
-    const { projectId, name, description, addCaseId, removeCaseId } = req.body;
+    const { projectId, name, description, caseIds } = req.body;
     if (!projectId) return res.status(400).json({ error: "projectId required" });
-    const idx = workspace.projects[userId].findIndex((p) => p.id === projectId);
-    if (idx === -1) return res.status(404).json({ error: "Project not found" });
-    if (name !== undefined) workspace.projects[userId][idx].name = name.trim();
-    if (description !== undefined) workspace.projects[userId][idx].description = description.trim();
-    if (addCaseId && !workspace.projects[userId][idx].caseIds.includes(addCaseId)) {
-      workspace.projects[userId][idx].caseIds.push(addCaseId);
-    }
-    if (removeCaseId) {
-      workspace.projects[userId][idx].caseIds = workspace.projects[userId][idx].caseIds.filter((id) => id !== removeCaseId);
-    }
-    workspace.projects[userId][idx].updatedAt = new Date().toISOString();
-    writeWorkspace(workspace);
-    return res.status(200).json({ ok: true, project: workspace.projects[userId][idx] });
+    await updateProject(parseInt(projectId, 10), researcherId, {
+      title: name?.trim(),
+      description: description?.trim(),
+      caseIds,
+    });
+    return res.status(200).json({ ok: true });
   }
 
   if (req.method === "DELETE") {
     const { projectId } = req.body;
     if (!projectId) return res.status(400).json({ error: "projectId required" });
-    workspace.projects[userId] = workspace.projects[userId].filter((p) => p.id !== projectId);
-    writeWorkspace(workspace);
+    await deleteProject(parseInt(projectId, 10), researcherId);
     return res.status(200).json({ ok: true });
   }
 

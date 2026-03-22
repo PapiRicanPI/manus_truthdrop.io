@@ -1,48 +1,47 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getUserSession, readUsers, writeUsers } from "../../../lib/userSession";
+import { getUserSession } from "../../../lib/userSession";
+import { getResearcherById, updateResearcherProfile } from "../../../lib/db";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getUserSession(req, res);
   if (!session.userId) {
     return res.status(401).json({ error: "Not authenticated" });
   }
-  const users = readUsers();
-  const idx = users.findIndex((u) => u.id === session.userId);
-  if (idx === -1) {
+  const numId = parseInt(session.userId, 10);
+  const researcher = await getResearcherById(numId);
+  if (!researcher) {
     return res.status(404).json({ error: "User not found" });
   }
 
   if (req.method === "GET") {
-    const u = users[idx];
     return res.status(200).json({
-      id: u.id,
-      name: u.name,
-      email: u.email,
-      role: u.role,
-      organization: u.organization,
-      alias: u.alias,
-      country: u.country,
-      bio: u.bio,
-      foundingInvestigator: u.foundingInvestigator,
-      foundingInvestigatorYear: u.foundingInvestigatorYear,
-      createdAt: u.createdAt,
+      id: String(researcher.id),
+      name: researcher.name,
+      email: researcher.email,
+      role: researcher.role,
+      organization: researcher.organization ?? null,
+      alias: researcher.alias ?? null,
+      country: researcher.country ?? null,
+      bio: researcher.bio ?? null,
+      foundingInvestigator: researcher.foundingInvestigator === 1,
+      foundingInvestigatorYear: researcher.foundingInvestigatorYear ?? null,
+      createdAt: researcher.createdAt instanceof Date ? researcher.createdAt.toISOString() : String(researcher.createdAt),
     });
   }
 
   if (req.method === "PATCH") {
     const { alias, country, bio } = req.body;
-    // Validate lengths
     if (alias !== undefined && typeof alias === "string" && alias.length > 50) {
       return res.status(400).json({ error: "Alias must be 50 characters or less" });
     }
     if (bio !== undefined && typeof bio === "string" && bio.length > 500) {
       return res.status(400).json({ error: "Bio must be 500 characters or less" });
     }
-    if (alias !== undefined) users[idx].alias = alias?.trim() || null;
-    if (country !== undefined) users[idx].country = country?.trim() || null;
-    if (bio !== undefined) users[idx].bio = bio?.trim() || null;
-    users[idx].updatedAt = new Date().toISOString();
-    writeUsers(users);
+    await updateResearcherProfile(numId, {
+      alias: alias !== undefined ? (alias?.trim() || null) : undefined,
+      country: country !== undefined ? (country?.trim() || null) : undefined,
+      bio: bio !== undefined ? (bio?.trim() || null) : undefined,
+    });
     return res.status(200).json({ ok: true });
   }
 
