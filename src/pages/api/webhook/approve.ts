@@ -44,8 +44,8 @@ function generateSecurePassword(): string {
   const array = new Uint8Array(16);
   crypto.getRandomValues(array);
   Array.from(array).forEach((byte) => {
-  password += chars[byte % chars.length];
-});
+    password += chars[byte % chars.length];
+  });
   return password;
 }
 
