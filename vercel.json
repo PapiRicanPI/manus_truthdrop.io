@@ -1,9 +1,10 @@
 {
-  "redirects": [
-    {
-      "source": "/tips",
-      "destination": "https://truthdrop-5buxndbh.manus.space/tips",
-      "permanent": false
-    }
+  "version": 2,
+  "buildCommand": "vite build && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist/server",
+  "outputDirectory": "public",
+  "installCommand": "pnpm install",
+  "framework": null,
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
