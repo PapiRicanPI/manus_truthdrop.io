@@ -13,7 +13,7 @@ This package contains a complete enhancement to the TruthDrop.io vetting applica
 ✅ **Automatic User Account Creation** - Accounts created upon approval  
 ✅ **Application Filtering** - Filter by status (Pending, Approved, Rejected)  
 ✅ **Real-time Statistics** - Dashboard shows application counts  
-
+TainoRican2n@gmail.com
 ---
 
 ## 📦 Package Contents
