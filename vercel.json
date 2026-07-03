@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "vite build",
-  "installCommand": "pnpm install",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
   "framework": null,
   "routes": [
     { "src": "/(.*)", "dest": "/index.html" }
