@@ -3,7 +3,7 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "framework": null,
-  "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
