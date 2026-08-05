@@ -1,9 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Ensure only src/pages is used for routing
   pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
-  // pdfkit is a Node.js-only module; exclude from browser bundle
+  async redirects() {
+    return [
+      {
+        source: '/tips',
+        destination: '/',
+        permanent: false,
+      },
+    ];
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
